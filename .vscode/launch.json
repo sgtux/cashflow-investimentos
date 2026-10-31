@@ -1,0 +1,13 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "API Investimentos",
+            "request": "launch",
+            "mainClass": "com.cashflow.investimentos.InvestimentosApiApplication",
+            "projectName": "cashflow-investimentos-api",
+            "cwd": "${workspaceFolder}/api"
+        }
+    ]
+}

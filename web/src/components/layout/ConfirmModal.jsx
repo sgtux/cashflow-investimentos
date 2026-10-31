@@ -8,7 +8,7 @@ export function ConfirmModal({ show, text, onClose, onConfirm }) {
       <DialogContent>{text}</DialogContent>
       <DialogActions>
         <Button onClick={onClose}>Cancelar</Button>
-        <Button onClick={onConfirm} color="secondary" variant="contained">Remover</Button>
+        <Button onClick={onConfirm} color="error" variant="contained">Remover</Button>
       </DialogActions>
     </Dialog>
   )

@@ -1,0 +1,65 @@
+spring:
+  application:
+    name: cashflow-investimentos-api
+
+  # Carrega um .env local (opcional) para desenvolvimento. Ver .env.example.
+  config:
+    # import: "optional:file:.env[.properties]"
+    import: "optional:file:.env[.properties]"
+
+  datasource:
+    url: ${DATABASE_URL}
+    username: ${DATABASE_USERNAME:sa}
+    password: ${DATABASE_PASSWORD}
+
+  jpa:
+    open-in-view: false
+    hibernate:
+      # NUNCA update/create: o Flyway aplica o schema, o Hibernate so confere o mapeamento na subida.
+      ddl-auto: validate
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.SQLServerDialect
+        default_schema: ${spring.flyway.schemas}
+
+  flyway:
+    schemas: investments
+    enabled: true
+    locations: classpath:db/migration
+    # Permite adotar o Flyway num banco que ja exista sem historico.
+    baseline-on-migrate: true
+    baseline-version: 0
+
+server:
+  port: ${SERVER_PORT:8080}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+  endpoint:
+    health:
+      probes:
+        enabled: true
+
+# Configuracao propria da aplicacao (ver ../docs/api-especificacao.md secao 7).
+cashflow:
+  api:
+    # URL da API .NET do Cashflow, usada pelo proxy de login (POST /api/token).
+    base-url: ${CASHFLOW_API_BASE_URL}
+  jwt:
+    # DEVE ser exatamente a mesma string configurada no app .NET - e a base da confianca entre os dois.
+    secret: ${SECRET_JWT_KEY}
+  web:
+    # Origem do frontend permitida em CORS.
+    origin: ${WEB_ORIGIN:http://localhost:3001}
+  brapi:
+    base-url: ${BRAPI_BASE_URL:https://brapi.dev/api}
+    token: ${BRAPI_API_TOKEN:}
+  quote:
+    cache-ttl-minutes: ${QUOTE_CACHE_TTL_MINUTES:10}
+
+logging:
+  level:
+    com.cashflow.investimentos: DEBUG

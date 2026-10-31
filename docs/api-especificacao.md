@@ -222,7 +222,7 @@ A organização interna da API (arquitetura hexagonal / Ports & Adapters, camada
 estratégia de testes) está em [`arquitetura.md`](./arquitetura.md).
 
 - **Spring Boot** (web + security).
-- **Flyway** para migrations (`V1__create_asset_table.sql`, `V2__create_contribution_table.sql`,
+- **Flyway** para migrations (`V20260910071003__create_asset.sql`, `V20260910071013__create_contribution.sql`,
   ...) — é o padrão do próprio Spring Boot. **O Flyway é o dono do schema**; o JPA nunca gera
   nem altera DDL.
 - **Spring Data JPA / Hibernate** para a persistência:

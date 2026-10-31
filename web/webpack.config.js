@@ -29,8 +29,8 @@ module.exports = {
     new ProgressBar(),
     new HtmlWebpackPlugin({
       template: path.join(__dirname, 'public', 'index.html'),
-      title: 'Cashflow Investimentos',
-      favicon: path.join(__dirname, 'public', 'favicon.ico')
+      title: 'Bê-a-bá da Grana · Rende',
+      favicon: path.join(__dirname, 'public', 'brand', 'favicon-32.png')
     }),
     new CleanWebpackPlugin()
   ],

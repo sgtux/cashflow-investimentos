@@ -3,7 +3,7 @@ import {
   Table, TableHead, TableBody, TableRow, TableCell, TableContainer,
   IconButton, Tooltip, Fab, TextField, MenuItem, Typography
 } from '@mui/material'
-import { Edit as EditIcon, Delete as DeleteIcon, Add as AddIcon } from '@mui/icons-material'
+import { Edit as EditIcon, Delete as DeleteIcon, Add as AddIcon, ReceiptLongRounded } from '@mui/icons-material'
 import { toast } from 'react-toastify'
 
 import { MainContainer } from '../../components/layout/MainContainer'
@@ -69,7 +69,14 @@ export function Contributions() {
   }
 
   return (
-    <MainContainer title="Aportes" loading={loading} helpTitle="O que é um aporte?" help={contributionsHelp}>
+    <MainContainer
+      title="Aportes"
+      subtitle="Cada compra que você fez, com quantidade e preço pago."
+      icon={<ReceiptLongRounded />}
+      loading={loading}
+      helpTitle="O que é um aporte?"
+      help={contributionsHelp}
+    >
       <TextField
         select
         size="small"
@@ -109,7 +116,7 @@ export function Contributions() {
                     </IconButton>
                   </Tooltip>
                   <Tooltip title="Remover">
-                    <IconButton color="secondary" onClick={() => setRemoving(c)}>
+                    <IconButton color="error" onClick={() => setRemoving(c)}>
                       <DeleteIcon />
                     </IconButton>
                   </Tooltip>

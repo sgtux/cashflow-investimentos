@@ -14,6 +14,10 @@ totais investidos, valor de mercado atual e rentabilidade. É uma aplicação ir
   API (a ser feita em Java, por conta própria, como exercício): contrato REST, modelo de
   dados, estratégia de autenticação (proxy de login para a API .NET do Cashflow existente),
   integração de cotação via brapi.dev.
+- **`api/`** — API Java (Spring Boot, arquitetura hexagonal). No momento é só o **scaffold**
+  (passo 1 do roteiro em `docs/api-especificacao.md` §8): Flyway + JPA com `ddl-auto=validate`,
+  proxy de login `POST /api/auth/login`, validação do JWT do Cashflow e um endpoint `whoami`
+  de teste. CRUD de ativos/aportes, cotação e dashboard ainda não existem. Ver `api/README.md`.
 
 Quando a API existir, basta trocar a implementação interna dos arquivos em
 `web/src/services/*.js` por chamadas HTTP reais — as assinaturas de função e os formatos de

@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react'
 import { Box, Table, TableHead, TableBody, TableRow, TableCell, TableContainer, Typography } from '@mui/material'
 import { LineChart } from '@mui/x-charts/LineChart'
 import { useColorScheme } from '@mui/material/styles'
+import { HomeRounded } from '@mui/icons-material'
 
 import { MainContainer } from '../../components/layout/MainContainer'
+import { SectionCard } from '../../components/SectionCard'
 import { StatTile } from '../../components/StatTile'
 import { dashboardService } from '../../services'
 import { toReal, toPercent, yearMonthLabel } from '../../helpers/utils'
@@ -32,7 +34,7 @@ export function Dashboard() {
   const returnIsGood = (summary?.totalReturn ?? 0) >= 0
 
   return (
-    <MainContainer title="Dashboard" loading={loading}>
+    <MainContainer title="Início" subtitle="O resumo da sua carteira." icon={<HomeRounded />} plain loading={loading}>
       {summary &&
         <>
           <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2, mb: 3 }}>
@@ -52,10 +54,7 @@ export function Dashboard() {
           </Box>
 
           {summary.monthlyEvolution.length > 0 &&
-            <Box sx={{ mb: 3 }}>
-              <Typography variant="subtitle2" sx={{ color: 'text.secondary', mb: 1 }}>
-                Evolução Mensal
-              </Typography>
+            <SectionCard title="Evolução Mensal" sx={{ mb: 3 }}>
               <LineChart
                 height={320}
                 dataset={summary.monthlyEvolution}
@@ -84,14 +83,11 @@ export function Dashboard() {
                 grid={{ horizontal: true }}
                 margin={{ left: 70 }}
               />
-            </Box>
+            </SectionCard>
           }
 
           {summary.monthlyEvolution.length > 0 &&
-            <Box sx={{ mb: 3 }}>
-              <Typography variant="subtitle2" sx={{ color: 'text.secondary', mb: 1 }}>
-                Histórico Mensal
-              </Typography>
+            <SectionCard title="Histórico Mensal" sx={{ mb: 3 }}>
               <TableContainer>
                 <Table size="small">
                   <TableHead>
@@ -121,41 +117,40 @@ export function Dashboard() {
                   </TableBody>
                 </Table>
               </TableContainer>
-            </Box>
+            </SectionCard>
           }
 
-          <Typography variant="subtitle2" sx={{ color: 'text.secondary', mb: 1 }}>
-            Composição por Ativo
-          </Typography>
-          <TableContainer>
-            <Table size="small">
-              <TableHead>
-                <TableRow>
-                  <TableCell>Ticker</TableCell>
-                  <TableCell align="right">Quantidade</TableCell>
-                  <TableCell align="right">Investido</TableCell>
-                  <TableCell align="right">Valor Atual</TableCell>
-                  <TableCell align="right">Retorno</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {summary.byAsset.map(a => (
-                  <TableRow key={a.assetId} hover>
-                    <TableCell><strong>{a.ticker}</strong></TableCell>
-                    <TableCell align="right">{a.quantity}</TableCell>
-                    <TableCell align="right">{toReal(a.invested)}</TableCell>
-                    <TableCell align="right">{toReal(a.currentValue)}</TableCell>
-                    <TableCell align="right" sx={{ color: a.returnPercent >= 0 ? 'success.main' : 'error.main' }}>
-                      {a.returnPercent >= 0 ? '+' : ''}{toPercent(a.returnPercent)}
-                    </TableCell>
+          <SectionCard title="Composição por Ativo">
+            <TableContainer>
+              <Table size="small">
+                <TableHead>
+                  <TableRow>
+                    <TableCell>Ticker</TableCell>
+                    <TableCell align="right">Quantidade</TableCell>
+                    <TableCell align="right">Investido</TableCell>
+                    <TableCell align="right">Valor Atual</TableCell>
+                    <TableCell align="right">Retorno</TableCell>
                   </TableRow>
-                ))}
-                {!summary.byAsset.length &&
-                  <TableRow><TableCell colSpan={5} align="center">Nenhum aporte lançado ainda.</TableCell></TableRow>
-                }
-              </TableBody>
-            </Table>
-          </TableContainer>
+                </TableHead>
+                <TableBody>
+                  {summary.byAsset.map(a => (
+                    <TableRow key={a.assetId} hover>
+                      <TableCell><strong>{a.ticker}</strong></TableCell>
+                      <TableCell align="right">{a.quantity}</TableCell>
+                      <TableCell align="right">{toReal(a.invested)}</TableCell>
+                      <TableCell align="right">{toReal(a.currentValue)}</TableCell>
+                      <TableCell align="right" sx={{ color: a.returnPercent >= 0 ? 'success.main' : 'error.main' }}>
+                        {a.returnPercent >= 0 ? '+' : ''}{toPercent(a.returnPercent)}
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                  {!summary.byAsset.length &&
+                    <TableRow><TableCell colSpan={5} align="center">Nenhum aporte lançado ainda.</TableCell></TableRow>
+                  }
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </SectionCard>
         </>
       }
     </MainContainer>

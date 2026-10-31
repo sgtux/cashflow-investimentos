@@ -11,7 +11,7 @@ import { Sidebar } from './Sidebar'
 import { AppRouter } from './AppRouter'
 import { Login } from '../../scenes/auth/Login'
 
-const DRAWER_WIDTH = 240
+const DRAWER_WIDTH = 280
 
 export function MainComponent() {
   const [sidebarIsOpen, setSidebarIsOpen] = useState(false)
@@ -23,50 +23,45 @@ export function MainComponent() {
   const { user, globalLoader, themeMode } = useAppState()
 
   useEffect(() => {
-    setMode(user ? themeMode : 'dark')
-  }, [themeMode, user])
+    setMode(themeMode)
+  }, [themeMode])
+
+  const toastContainer = <ToastContainer position="bottom-right" theme={themeMode === 'dark' ? 'dark' : 'light'} />
 
   if (!user)
     return (
       <>
         <Login />
-        <ToastContainer />
+        {toastContainer}
       </>
     )
 
   return (
     <div>
       <HashRouter>
-        <Box sx={{ display: 'flex' }}>
+        <Box sx={{ display: 'flex', minHeight: '100vh', bgcolor: 'background.default' }}>
           <Drawer
             variant={sidebarDocked ? 'permanent' : 'temporary'}
             open={sidebarDocked || sidebarIsOpen}
             onClose={() => setSidebarIsOpen(false)}
             ModalProps={{ keepMounted: true }}
-            sx={theme => ({
+            sx={{
               width: sidebarDocked ? DRAWER_WIDTH : 0,
               flexShrink: 0,
-              '& .MuiDrawer-paper': {
-                width: DRAWER_WIDTH,
-                boxSizing: 'border-box',
-                backgroundColor: theme.palette.primary.main,
-                ...theme.applyStyles('dark', {
-                  backgroundColor: theme.palette.background.paper
-                })
-              }
-            })}>
+              '& .MuiDrawer-paper': { width: DRAWER_WIDTH, boxSizing: 'border-box', borderRight: 1, borderColor: 'divider', bgcolor: 'background.paper' }
+            }}>
             <Sidebar closeSidebar={() => setSidebarIsOpen(false)} />
           </Drawer>
-          <Box sx={{ flexGrow: 1, minWidth: 0 }}>
+          <Box component="main" sx={{ flexGrow: 1, minWidth: 0 }}>
             <AppToolbar dockedMenu={sidebarDocked} openSideBar={() => setSidebarIsOpen(true)} />
             <AppRouter />
           </Box>
         </Box>
       </HashRouter>
-      <ToastContainer />
+      {toastContainer}
       {globalLoader > 0 &&
         <Box sx={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 2000 }}>
-          <LinearProgress />
+          <LinearProgress color="secondary" sx={{ height: 4 }} />
         </Box>
       }
     </div>

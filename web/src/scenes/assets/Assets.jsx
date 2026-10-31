@@ -3,7 +3,7 @@ import {
   Table, TableHead, TableBody, TableRow, TableCell, TableContainer,
   IconButton, Tooltip, Fab, Chip, Box, Typography
 } from '@mui/material'
-import { Edit as EditIcon, Delete as DeleteIcon, Add as AddIcon } from '@mui/icons-material'
+import { Edit as EditIcon, Delete as DeleteIcon, Add as AddIcon, TrendingUpRounded } from '@mui/icons-material'
 import { toast } from 'react-toastify'
 
 import { MainContainer } from '../../components/layout/MainContainer'
@@ -120,6 +120,8 @@ export function Assets() {
   return (
     <MainContainer
       title="Ativos"
+      subtitle="Os investimentos que você acompanha."
+      icon={<TrendingUpRounded />}
       loading={loading}
       helpTitle="O que é um ativo? E o que diferencia FII de ação?"
       help={assetsHelp}
@@ -151,7 +153,7 @@ export function Assets() {
                     </IconButton>
                   </Tooltip>
                   <Tooltip title="Remover">
-                    <IconButton color="secondary" onClick={() => setRemoving(a)}>
+                    <IconButton color="error" onClick={() => setRemoving(a)}>
                       <DeleteIcon />
                     </IconButton>
                   </Tooltip>
